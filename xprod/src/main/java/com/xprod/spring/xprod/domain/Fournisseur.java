@@ -16,7 +16,7 @@ public class Fournisseur implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "IDFOURNISSEUR")
-	private Long idHournisseur;
+	private Long idFournisseur;
 	@Column(name = "NOMFOURNISSEUR")
 	private String nomFournisseur;
 	@Column(name = "RAISONSOCIALEFOURNISSEUR")
@@ -39,8 +39,8 @@ public class Fournisseur implements Serializable{
 	private double prixApproHTProduit;
 	
 	
-	public Long getIdHournisseur() {
-		return idHournisseur;
+	public Long getIdFournisseur() {
+		return idFournisseur;
 	}
 	public String getNomFournisseur() {
 		return nomFournisseur;
@@ -72,8 +72,8 @@ public class Fournisseur implements Serializable{
 	public double getPrixApproHTProduit() {
 		return prixApproHTProduit;
 	}
-	public void setIdHournisseur(Long idHournisseur) {
-		this.idHournisseur = idHournisseur;
+	public void setIdHournisseur(Long idFournisseur) {
+		this.idFournisseur = idFournisseur;
 	}
 	public void setNomFournisseur(String nomFournisseur) {
 		this.nomFournisseur = nomFournisseur;
@@ -105,12 +105,12 @@ public class Fournisseur implements Serializable{
 	public void setPrixApproHTProduit(double prixApproHTProduit) {
 		this.prixApproHTProduit = prixApproHTProduit;
 	}
-	public Fournisseur(Long idHournisseur, String nomFournisseur, String raisonSocialeFournisseur,
+	public Fournisseur(Long idFournisseur, String nomFournisseur, String raisonSocialeFournisseur,
 			String rueAdresseFournisseur, String codePostalAdresseFournisseur, String villeAdresseFournisseur,
 			String paysAdresseFournisseur, String emailFournisseur, String telFournisseur, String refExterneProduit,
 			double prixApproHTProduit) {
 		super();
-		this.idHournisseur = idHournisseur;
+		this.idFournisseur = idFournisseur;
 		this.nomFournisseur = nomFournisseur;
 		this.raisonSocialeFournisseur = raisonSocialeFournisseur;
 		this.rueAdresseFournisseur = rueAdresseFournisseur;
