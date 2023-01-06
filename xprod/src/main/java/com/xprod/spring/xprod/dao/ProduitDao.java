@@ -9,7 +9,6 @@ import com.xprod.spring.xprod.domain.Produit;
 import com.xprod.spring.xprod.repository.IProduitRepository;
 
 @Service
-
 public class ProduitDao {
 	@Autowired
 	IProduitRepository produitRepository;

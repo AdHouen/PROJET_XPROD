@@ -14,7 +14,7 @@ public class FournisseurDao {
 	IFournisseurRepository fournisseurRepository;
 	
 	// Liste de fournisseurs
-			public List<Fournisseur> getProduits() {
+			public List<Fournisseur> getFournisseurs() {
 				return fournisseurRepository.findAll();
 				
 			}

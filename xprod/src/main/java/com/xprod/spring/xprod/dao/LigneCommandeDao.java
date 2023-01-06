@@ -16,26 +16,26 @@ public class LigneCommandeDao {
 	ILigneCommandeRepository ligneCommandeRepository;
 	
 	// Liste de produits
-	public List<LigneCommande> getLigneCommandes() {
+	public List<LigneCommande> getLignesCommandes() {
 		return ligneCommandeRepository.findAll();
 		
 	}
 	
 	//Save
-	public LigneCommande saveCommandes(LigneCommande ligneCommande) {
+	public LigneCommande saveLigneCommande(LigneCommande ligneCommande) {
 		return ligneCommandeRepository.save(ligneCommande);
 		
 	}
 	
 	// get a Produit 
-	public LigneCommande getCommandeByID(Long idcommande) {
-		return ligneCommandeRepository.findById(idcommande).get();
+	public LigneCommande getLigneCommandeByID(Long idLigneCommande) {
+		return ligneCommandeRepository.findById(idLigneCommande).get();
 	}
 	
 	
 	// Delete a produit
 	
-	public void deleteCommande(LigneCommande ligneCommande) {
+	public void deleteLigneCommande(LigneCommande ligneCommande) {
 		ligneCommandeRepository.delete(ligneCommande);
 	
 	}

@@ -11,7 +11,6 @@ import com.xprod.spring.xprod.repository.IProduitFabRepository;
 
 
 @Service
-
 public class ProduitFabDao {
 	@Autowired
 	IProduitFabRepository produitFabRepository;
