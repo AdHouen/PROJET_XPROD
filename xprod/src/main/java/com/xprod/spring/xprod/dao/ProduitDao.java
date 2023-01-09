@@ -38,5 +38,12 @@ public class ProduitDao {
 	
 	}
 	
+	// Update 
+	
+	public Produit updateProduit(Produit produit) {
+		return produitRepository.save(produit);
+		
+	}
+	
  
 }
