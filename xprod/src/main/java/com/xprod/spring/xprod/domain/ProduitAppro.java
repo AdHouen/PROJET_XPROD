@@ -12,7 +12,7 @@ public class ProduitAppro extends Produit{
 	private Long prixAchatUnitaireHTMoyen;
 	@Column(name = "REFEXTERNEPRODUIT")
 	private String refExterneProduit;
-	@Column(name = "REFAPPROHTPRODUIT")
+	@Column(name = "PRIXAPPROHTPRODUIT")
 	private double prixApproHTProduit;
 	
 	
