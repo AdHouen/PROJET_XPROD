@@ -1,7 +1,6 @@
 package com.xprod.spring.xprod.domain;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,33 +15,48 @@ import jakarta.persistence.Table;
 public class Commande implements Serializable {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "IDCOMMANDE")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "COMMANDE_ID")
 	private Long idCommande;
-	@Column(name = "DATECOMMANDE")
-	private LocalDate dateCommande;
+	@Column(name = "DATECOMMANDE", nullable= false)
+	private String dateCommande;
+	@Column(name = "FRAISPORTCOMMANDE")
+	private double fraisPortCommande;
 	
 	
 	public Long getIdCommande() {
 		return idCommande;
 	}
-	public LocalDate getDateCommande() {
+	public String getDateCommande() {
 		return dateCommande;
+	}
+	public double getFraisPortCommande() {
+		return fraisPortCommande;
 	}
 	public void setIdCommande(Long idCommande) {
 		this.idCommande = idCommande;
 	}
-	public void setDateCommande(LocalDate dateCommande) {
+	public void setDateCommande(String dateCommande) {
 		this.dateCommande = dateCommande;
 	}
-	public Commande(Long idCommande, LocalDate dateCommande) {
+	public void setFraisPortCommande(double fraisPortCommande) {
+		this.fraisPortCommande = fraisPortCommande;
+	}
+	public Commande(Long idCommande, String dateCommande, double fraisPortCommande) {
 		super();
 		this.idCommande = idCommande;
 		this.dateCommande = dateCommande;
+		this.fraisPortCommande = fraisPortCommande;
 	}
 	public Commande() {
 		super();
 	}
+	
+	
+	
+	
+	
+	
 	
 	
 	

@@ -1,13 +1,14 @@
 package com.xprod.spring.xprod.domain;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity 
@@ -15,51 +16,19 @@ import jakarta.persistence.Table;
 public class LigneCommande implements Serializable {
 	
 	@Id 
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "IDLIGNECOMMANDE")
-	private Long idLigneCommande;
-	@Column(name = "LIGNECOMMANDE")
-	private int ligneCommande;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "LIGNECOMMANDE_ID")
+	private Long ligneCommande_id;
+	@Column(name = "QTELIGNECOMMANDE")
+	private int qteLigneCommande;
 	@Column(name = "DATELIVRAISONLIGNECOMMANDE")
-	private LocalDate dateLivraisonLigneCommande;
+	private String dateLivraisonLigneCommande;
 	@Column(name = "PRIXUNITAIREHTLIGNECOMMANDE")
 	private double prixUnitaireHTLigneCommande;
-	public Long getIdLigneCommande() {
-		return idLigneCommande;
-	}
 	
-	public int getLigneCommande() {
-		return ligneCommande;
-	}
-	public LocalDate getDateLivraisonLigneCommande() {
-		return dateLivraisonLigneCommande;
-	}
-	public double getPrixUnitaireHTLigneCommande() {
-		return prixUnitaireHTLigneCommande;
-	}
-	public void setIdLigneCommande(Long idLigneCommande) {
-		this.idLigneCommande = idLigneCommande;
-	}
-	public void setLigneCommande(int ligneCommande) {
-		this.ligneCommande = ligneCommande;
-	}
-	public void setDateLivraisonLigneCommande(LocalDate dateLivraisonLigneCommande) {
-		this.dateLivraisonLigneCommande = dateLivraisonLigneCommande;
-	}
-	public void setPrixUnitaireHTLigneCommande(double prixUnitaireHTLigneCommande) {
-		this.prixUnitaireHTLigneCommande = prixUnitaireHTLigneCommande;
-	}
-	public LigneCommande(Long idLigneCommande, int ligneCommande, LocalDate dateLivraisonLigneCommande,
-			double prixUnitaireHTLigneCommande) {
-		super();
-		this.idLigneCommande = idLigneCommande;
-		this.ligneCommande = ligneCommande;
-		this.dateLivraisonLigneCommande = dateLivraisonLigneCommande;
-		this.prixUnitaireHTLigneCommande = prixUnitaireHTLigneCommande;
-	}
-	public LigneCommande() {
-		super();
-	}
+	@ManyToOne
+	@JoinColumn(name="COMMANDE_ID")
+	private Commande commande;
 	
 	
 	
