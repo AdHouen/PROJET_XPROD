@@ -29,6 +29,60 @@ public class LigneCommande implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="COMMANDE_ID")
 	private Commande commande;
+
+	public Long getLigneCommande_id() {
+		return ligneCommande_id;
+	}
+
+	public int getQteLigneCommande() {
+		return qteLigneCommande;
+	}
+
+	public String getDateLivraisonLigneCommande() {
+		return dateLivraisonLigneCommande;
+	}
+
+	public double getPrixUnitaireHTLigneCommande() {
+		return prixUnitaireHTLigneCommande;
+	}
+
+	public Commande getCommande() {
+		return commande;
+	}
+
+	public void setLigneCommande_id(Long ligneCommande_id) {
+		this.ligneCommande_id = ligneCommande_id;
+	}
+
+	public void setQteLigneCommande(int qteLigneCommande) {
+		this.qteLigneCommande = qteLigneCommande;
+	}
+
+	public void setDateLivraisonLigneCommande(String dateLivraisonLigneCommande) {
+		this.dateLivraisonLigneCommande = dateLivraisonLigneCommande;
+	}
+
+	public void setPrixUnitaireHTLigneCommande(double prixUnitaireHTLigneCommande) {
+		this.prixUnitaireHTLigneCommande = prixUnitaireHTLigneCommande;
+	}
+
+	public void setCommande(Commande commande) {
+		this.commande = commande;
+	}
+
+	public LigneCommande(Long ligneCommande_id, int qteLigneCommande, String dateLivraisonLigneCommande,
+			double prixUnitaireHTLigneCommande, Commande commande) {
+		super();
+		this.ligneCommande_id = ligneCommande_id;
+		this.qteLigneCommande = qteLigneCommande;
+		this.dateLivraisonLigneCommande = dateLivraisonLigneCommande;
+		this.prixUnitaireHTLigneCommande = prixUnitaireHTLigneCommande;
+		this.commande = commande;
+	}
+
+	public LigneCommande() {
+		super();
+	}
 	
 	
 	

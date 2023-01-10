@@ -4,12 +4,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -19,7 +23,7 @@ public class Fournisseur implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "IDFOURNISSEUR")
+	@Column(name = "FOURNISSEUR_ID")
 	private Long idFournisseur;
 	@Column(name = "NOMFOURNISSEUR")
 	private String nomFournisseur;
@@ -44,6 +48,10 @@ public class Fournisseur implements Serializable{
 	
 	@OneToMany(mappedBy = "FOURNISSEUR", fetch = FetchType.LAZY)
 	private List<Commande> commandes = new ArrayList<>();
+	
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "Approvisionner", joinColumns = @JoinColumn(name = "FOURNISSEUR_ID"), inverseJoinColumns = @JoinColumn(name ="PRODUIT_ID"))
+	private List<ProduitAppro> produitAppros;
 
 	public Long getIdFournisseur() {
 		return idFournisseur;
@@ -91,6 +99,10 @@ public class Fournisseur implements Serializable{
 
 	public List<Commande> getCommandes() {
 		return commandes;
+	}
+
+	public List<ProduitAppro> getProduitAppros() {
+		return produitAppros;
 	}
 
 	public void setIdFournisseur(Long idFournisseur) {
@@ -141,10 +153,14 @@ public class Fournisseur implements Serializable{
 		this.commandes = commandes;
 	}
 
+	public void setProduitAppros(List<ProduitAppro> produitAppros) {
+		this.produitAppros = produitAppros;
+	}
+
 	public Fournisseur(Long idFournisseur, String nomFournisseur, String raisonSocialeFournisseur,
 			String rueAdresseFournisseur, String codePostalAdresseFournisseur, String villeAdresseFournisseur,
 			String paysAdresseFournisseur, String emailFournisseur, String telFournisseur, String refExterneProduit,
-			double prixApproHTProduit, List<Commande> commandes) {
+			double prixApproHTProduit, List<Commande> commandes, List<ProduitAppro> produitAppros) {
 		super();
 		this.idFournisseur = idFournisseur;
 		this.nomFournisseur = nomFournisseur;
@@ -158,6 +174,7 @@ public class Fournisseur implements Serializable{
 		this.refExterneProduit = refExterneProduit;
 		this.prixApproHTProduit = prixApproHTProduit;
 		this.commandes = commandes;
+		this.produitAppros = produitAppros;
 	}
 
 	public Fournisseur() {

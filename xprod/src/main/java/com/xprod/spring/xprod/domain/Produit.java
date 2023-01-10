@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
 public class Produit implements Serializable{
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "IDPRODUIT")
+	@Column(name = "PRODUIT_ID")
 	private Long idProduit;
 	
 	@Column(name = "REFINTERNE")
