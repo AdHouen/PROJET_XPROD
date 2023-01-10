@@ -19,13 +19,13 @@ public class ProduitDao {
 		
 	}
 	
-	//Save
+	//Save Produit
 	public Produit saveProduit(Produit produit) {
 		return produitRepository.save(produit);
 		
 	}
 	
-	// get a Produit 
+	// get a Produit by ID
 	public Produit getProduitByID(Long idProduit) {
 		return produitRepository.findById(idProduit).get();
 	}

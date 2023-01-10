@@ -27,7 +27,7 @@ public class LigneCommande implements Serializable {
 	private double prixUnitaireHTLigneCommande;
 	
 	@ManyToOne
-	@JoinColumn(name="COMMANDE_ID")
+	@JoinColumn(name="idCommande")
 	private Commande commande;
 
 	public Long getLigneCommande_id() {
