@@ -46,7 +46,7 @@ public class Fournisseur implements Serializable{
 	@Column(name = "REFAPPROHTPRODUIT")
 	private double prixApproHTProduit;
 	
-	@OneToMany(mappedBy = "FOURNISSEUR", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "idCommande", fetch = FetchType.LAZY)
 	private List<Commande> commandes = new ArrayList<>();
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

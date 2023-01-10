@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 
 @Entity 
 @Table(name="PRODUIT")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Produit implements Serializable{
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
