@@ -21,20 +21,22 @@ public class ProduitFab extends Produit {
 
 	public ProduitFab() {
 		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public ProduitFab(Long idProduit, String refInterneProduit, String designationProduit, String descriptifProduit,
-			double prixVenteUProduit) {
-		super(idProduit, refInterneProduit, designationProduit, descriptifProduit, prixVenteUProduit);
-		// TODO Auto-generated constructor stub
-	}
-
-	public ProduitFab(Long idProduit, String refInterneProduit, String designationProduit, String descriptifProduit,
-			double prixVenteUProduit, int nbHeuresMoyen) {
-		super(idProduit, refInterneProduit, designationProduit, descriptifProduit, prixVenteUProduit);
+			double prixVenteUProduit, String imgProduitString, int nbHeuresMoyen) {
+		super(idProduit, refInterneProduit, designationProduit, descriptifProduit, prixVenteUProduit, imgProduitString);
 		this.nbHeuresMoyen = nbHeuresMoyen;
 	}
+
+	public ProduitFab(Long idProduit, String refInterneProduit, String designationProduit, String descriptifProduit,
+			double prixVenteUProduit, String imgProduitString) {
+		super(idProduit, refInterneProduit, designationProduit, descriptifProduit, prixVenteUProduit, imgProduitString);
+		
+	}
+
+	
 	
 	
 

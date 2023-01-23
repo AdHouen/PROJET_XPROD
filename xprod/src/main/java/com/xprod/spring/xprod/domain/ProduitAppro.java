@@ -72,9 +72,9 @@ public class ProduitAppro extends Produit{
 	}
 
 	public ProduitAppro(Long idProduit, String refInterneProduit, String designationProduit, String descriptifProduit,
-			double prixVenteUProduit, Long prixAchatUnitaireHTMoyen, String refExterneProduit,
+			double prixVenteUProduit, String imgProduitString, Long prixAchatUnitaireHTMoyen, String refExterneProduit,
 			double prixApproHTProduit, List<Fournisseur> fournisseurs, List<LigneCommande> ligneCommandes) {
-		super(idProduit, refInterneProduit, designationProduit, descriptifProduit, prixVenteUProduit);
+		super(idProduit, refInterneProduit, designationProduit, descriptifProduit, prixVenteUProduit, imgProduitString);
 		this.prixAchatUnitaireHTMoyen = prixAchatUnitaireHTMoyen;
 		this.refExterneProduit = refExterneProduit;
 		this.prixApproHTProduit = prixApproHTProduit;
@@ -82,10 +82,18 @@ public class ProduitAppro extends Produit{
 		this.ligneCommandes = ligneCommandes;
 	}
 
-	public ProduitAppro(Long idProduit, String refInterneProduit, String designationProduit, String descriptifProduit,
-			double prixVenteUProduit) {
-		super(idProduit, refInterneProduit, designationProduit, descriptifProduit, prixVenteUProduit);
+	public ProduitAppro() {
+		super();
+		
 	}
+
+	public ProduitAppro(Long idProduit, String refInterneProduit, String designationProduit, String descriptifProduit,
+			double prixVenteUProduit, String imgProduitString) {
+		super(idProduit, refInterneProduit, designationProduit, descriptifProduit, prixVenteUProduit, imgProduitString);
+		
+	}
+
+	
 	
 
 

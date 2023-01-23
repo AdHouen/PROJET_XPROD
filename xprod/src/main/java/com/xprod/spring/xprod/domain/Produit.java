@@ -29,6 +29,8 @@ public class Produit implements Serializable{
 	private String descriptifProduit;
 	@Column(name = "PRIXVENTEHT")
 	private double prixVenteUProduit;
+	@Column(name = "IMAGE")
+	private String imgProduit;
 	
 	public Long getIdProduit() {
 		return idProduit;
@@ -47,6 +49,12 @@ public class Produit implements Serializable{
 	public double getPrixVenteUProduit() {
 		return prixVenteUProduit;
 	}
+	public String getImgProduit() {
+		return imgProduit;
+	}
+
+	
+	
 	public void setIdProduit(Long idProduit) {
 		this.idProduit = idProduit;
 	}
@@ -62,20 +70,36 @@ public class Produit implements Serializable{
 	public void setPrixVenteUProduit(double prixVenteUProduit) {
 		this.prixVenteUProduit = prixVenteUProduit;
 	}
+	public void setImgProduit(String imgProduit) {
+		this.imgProduit = imgProduit;
+	}
+	
+	
+	
+	
+	
+
+
 	public Produit(Long idProduit, String refInterneProduit, String designationProduit, String descriptifProduit,
-			double prixVenteUProduit) {
+			double prixVenteUProduit, String imgProduit) {
 		super();
 		this.idProduit = idProduit;
 		this.refInterneProduit = refInterneProduit;
 		this.designationProduit = designationProduit;
 		this.descriptifProduit = descriptifProduit;
 		this.prixVenteUProduit = prixVenteUProduit;
+		this.imgProduit = imgProduit;
 	}
 
 
 	public Produit() {
 		super();
 	}
+
+
+	
+
+	
 	
 
 	
