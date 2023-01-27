@@ -19,6 +19,7 @@ public class XprodImages {
 	private String descriptifImage;
 	@Column(name = "URL_IMAGE")
 	private String url_Image;
+	
 	public Long getIdImage() {
 		return idImage;
 	}
