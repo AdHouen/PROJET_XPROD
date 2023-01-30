@@ -8,13 +8,18 @@ import java.util.stream.Collectors;
 import static java.util.Arrays.stream;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
 import com.auth0.jwt.JWT;
 
 import com.auth0.jwt.JWTVerifier;
 import com.xprod.spring.xprod.domain.UserPrincipal;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 import static com.xprod.spring.xprod.constant.SecurityConstant.*;
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
@@ -51,6 +56,12 @@ public class JWTTokenProvider {
 	
 
 	private JWTVerifier getJWTVerifier() {
+		JWTVerifier verifier;
+		try {
+			HMAC512(secret);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		
 		return null;
 	}
@@ -62,6 +73,14 @@ public class JWTTokenProvider {
 		}
 		
 		return authorities.toArray(new String[0]);
+	}
+	
+	// Récupére les authentification when we verify the token
+	public Authentication getAuthentification(String username, List<GrantedAuthority> authorities, HttpServletRequest request) {
+		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, null, authorities);
+		usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+		
+		return usernamePasswordAuthenticationToken;
 	}
 
 }
