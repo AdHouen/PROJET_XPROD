@@ -13,22 +13,27 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 
 import com.auth0.jwt.JWT;
 
 import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.xprod.spring.xprod.domain.UserPrincipal;
 
+import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 
 import static com.xprod.spring.xprod.constant.SecurityConstant.*;
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
 
+@Component
 
 public class JWTTokenProvider {
 	
-	@Value("${jwt.secret}")
+	@Value("${jwt.secret}") // Comes from application.properties
 	private String secret;
 	
 	
@@ -58,12 +63,13 @@ public class JWTTokenProvider {
 	private JWTVerifier getJWTVerifier() {
 		JWTVerifier verifier;
 		try {
-			HMAC512(secret);
-		} catch (Exception e) {
-			// TODO: handle exception
+			Algorithm algorithm = HMAC512(secret);
+			verifier = JWT.require(algorithm).withIssuer(GET_ARRAYS_XPROD).build();
+		} catch (JWTVerificationException e) {
+			throw new JWTVerificationException(TOKEN_CANNOT_BE_VERIFIED);
 		}
 		
-		return null;
+		return verifier;
 	}
 
 	private String[] getClaimsFromUser(UserPrincipal user) {
@@ -81,6 +87,23 @@ public class JWTTokenProvider {
 		usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 		
 		return usernamePasswordAuthenticationToken;
+	}
+	
+	public boolean isTokenValid(String username, String token) {
+		JWTVerifier verifier = getJWTVerifier();
+		return StringUtils.isNotEmpty(username)&& !isTokenExpired(verifier, token);
+	}
+	 // Nous vérifions la  date d'expiration du token 
+	private boolean isTokenExpired(JWTVerifier verifier, String token) {
+		Date expiration = verifier.verify(token).getExpiresAt();
+		return expiration.before(new Date());
+	}
+	
+	// On verifie que l'utilisateur à le bon token
+	public String getSubject(String token) {
+		JWTVerifier verifier  = getJWTVerifier();
+		return verifier.verify(token).getSubject();
+		
 	}
 
 }
