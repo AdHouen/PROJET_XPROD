@@ -5,15 +5,19 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.xprod.spring.xprod.exception.domain.EmailExistException;
+import com.xprod.spring.xprod.exception.domain.ExceptionHandling;
+
 @RestController
 //@RequestMapping("/user")
 @CrossOrigin("*")
-public class UserResource {
+public class UserResource extends ExceptionHandling{
 	
 	
 	@GetMapping("/home")
-	public String showUser() {
-		return "application works !" ;
+	public String showUser() throws EmailExistException{
+//		return "application works !" ;
+		throw new EmailExistException("Cette adresse email est déjà prise ! ");
 	}
 
 }
