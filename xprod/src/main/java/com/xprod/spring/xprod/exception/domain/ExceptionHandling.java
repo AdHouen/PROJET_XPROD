@@ -1,9 +1,11 @@
 package com.xprod.spring.xprod.exception.domain;
 
+import java.io.IOException;
 import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +25,7 @@ import jakarta.persistence.NoResultException;
 
 
 @RestControllerAdvice
-public class ExceptionHandling {
+public class ExceptionHandling implements ErrorController{
 	
 	private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 	private static final String ACCOUNT_LOCKED = "Ton compte à été bloqué, veuillez contacter l'administrateur";
@@ -33,6 +35,7 @@ public class ExceptionHandling {
 	private static final String ACCOUNT_DISABLED = "Votre compte a été désactivé. S'il s'agit d'une erreur, veuillez contacter l'administrateur.";
 	private static final String ERROR_PROCESSING_FILE = "Une erreur s'est produite lors du traitement du fichier";
 	private static final String NOT_ENOUGH_PERMISSION ="Vous n'avez pas la permission necessaire";
+	private static final String ERROR_PATH= "/error";
 	
 	@ExceptionHandler(DisabledException.class)
 	private ResponseEntity<HttpResponse> accountDisabledException(){
@@ -98,13 +101,6 @@ public class ExceptionHandling {
 		return createHttpResponse(HttpStatus.NOT_FOUND , exeption.getMessage());
 	}
 	
-	
-	
-	
-	
-	
-	
-	
 	private ResponseEntity<HttpResponse> createHttpResponse(HttpStatus httpStatus, String message){
 		HttpResponse httpResponse = new HttpResponse(
 				httpStatus.value(),
@@ -115,5 +111,19 @@ public class ExceptionHandling {
 		return new ResponseEntity<>(httpResponse, httpStatus);
 		
 		}
+	@ExceptionHandler(IOException.class)
+	private ResponseEntity<HttpResponse> IOException(IOException exeption){
+		LOGGER.error(exeption.getMessage());
+		return createHttpResponse(HttpStatus.INTERNAL_SERVER_ERROR , INTERNAL_SERVER_ERROR_MSG);
+	}
+	
+	@ExceptionHandler(ERROR_PATH)
+	private ResponseEntity<HttpResponse> notFound404Exception(HttpStatus httpStatus, String message){
+		return createHttpResponse(HttpStatus.NOT_FOUND , "Il n'y a pas de mapping pour cette URL");
+	}
+	
+	public String getErrorPath() {
+		.
+	}
 	
 }

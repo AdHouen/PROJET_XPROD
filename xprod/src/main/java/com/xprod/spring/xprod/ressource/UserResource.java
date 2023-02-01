@@ -1,16 +1,15 @@
 package com.xprod.spring.xprod.ressource;
 
 
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xprod.spring.xprod.exception.domain.EmailExistException;
 import com.xprod.spring.xprod.exception.domain.ExceptionHandling;
 
 @RestController
-//@RequestMapping("/user")
-@CrossOrigin("*")
+@RequestMapping("/user")
 public class UserResource extends ExceptionHandling{
 	
 	
