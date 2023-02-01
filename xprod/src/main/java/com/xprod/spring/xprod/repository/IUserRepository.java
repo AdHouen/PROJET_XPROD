@@ -7,6 +7,6 @@ import com.xprod.spring.xprod.domain.User;
 public interface IUserRepository extends JpaRepository<User, Long>{
 	
 	User findUserByUsername(String username);
-	User findUserByEmailUser (String email);
+	User findUserByEmail (String email);
 
 }

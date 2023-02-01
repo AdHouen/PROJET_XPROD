@@ -18,7 +18,7 @@ public class User implements Serializable {
 	@Column(nullable=false, updatable=false)
 	private Long id; //id pour la base de donnée
 	
-	private String IdUser; // Id pour l'utilisitaeur
+	private String idUser; // Id pour l'utilisitaeur
 	private String firstName;
 	private String lastName;
 	private String username;
@@ -32,13 +32,11 @@ public class User implements Serializable {
 	private String [] authorities; // Are permissions : read, edit, delete
 	private boolean isActive;
 	private boolean isNotLocked;
-	
-	
 	public Long getId() {
 		return id;
 	}
 	public String getIdUser() {
-		return IdUser;
+		return idUser;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -83,7 +81,7 @@ public class User implements Serializable {
 		this.id = id;
 	}
 	public void setIdUser(String idUser) {
-		IdUser = idUser;
+		this.idUser = idUser;
 	}
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
@@ -124,12 +122,15 @@ public class User implements Serializable {
 	public void setNotLocked(boolean isNotLocked) {
 		this.isNotLocked = isNotLocked;
 	}
+	public User() {
+		super();
+	}
 	public User(Long id, String idUser, String firstName, String lastName, String username, String password,
 			String email, String profileImageURL, Date lastLoginDate, Date lastLoginDateDisplay, Date joinDate,
 			String role, String[] authorities, boolean isActive, boolean isNotLocked) {
 		super();
 		this.id = id;
-		IdUser = idUser;
+		this.idUser = idUser;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
@@ -143,9 +144,6 @@ public class User implements Serializable {
 		this.authorities = authorities;
 		this.isActive = isActive;
 		this.isNotLocked = isNotLocked;
-	}
-	public User() {
-		super();
 	}
 	
 	
