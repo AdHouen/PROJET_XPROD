@@ -16,6 +16,7 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.xprod.spring.xprod.domain.HttpResponse;
@@ -117,13 +118,14 @@ public class ExceptionHandling implements ErrorController{
 		return createHttpResponse(HttpStatus.INTERNAL_SERVER_ERROR , INTERNAL_SERVER_ERROR_MSG);
 	}
 	
-	@ExceptionHandler(ERROR_PATH)
+	@ExceptionHandler(HttpClientErrorException.NotFound.class)
 	private ResponseEntity<HttpResponse> notFound404Exception(HttpStatus httpStatus, String message){
 		return createHttpResponse(HttpStatus.NOT_FOUND , "Il n'y a pas de mapping pour cette URL");
 	}
 	
 	public String getErrorPath() {
-		.
+		return ERROR_PATH;
+		
 	}
 	
 }
