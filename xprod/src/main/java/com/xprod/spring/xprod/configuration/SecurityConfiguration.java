@@ -8,14 +8,17 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
@@ -23,6 +26,7 @@ import org.springframework.stereotype.Component;
 import com.xprod.spring.xprod.constant.filter.JwtAccessDeniedHandler;
 import com.xprod.spring.xprod.constant.filter.JwtAuthenticationEntryPoint;
 import com.xprod.spring.xprod.constant.filter.JwtAuthorizationFilter;
+import com.xprod.spring.xprod.domain.User;
 
 import lombok.RequiredArgsConstructor;
 
@@ -94,7 +98,21 @@ public class SecurityConfiguration extends AbstractUserDetailsAuthenticationProv
 		
 		return userDetailsService.loadUserByUsername(username);
 	}
+	
+	@Bean
+	public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailsService userDetailsService) 
+	  throws Exception {
+	    return http.getSharedObject(AuthenticationManagerBuilder.class)
+	      .userDetailsService(userDetailsService)
+	      .passwordEncoder(bCryptPasswordEncoder)
+	      .and()
+	      .build();
+	}
 
+//	@Bean
+//	public AuthenticationManager authenticationManagerBean() throws Exception {
+//		return super.authenticationManagerBean();
+//	}
 
    
    

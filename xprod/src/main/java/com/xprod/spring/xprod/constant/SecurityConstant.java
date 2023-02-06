@@ -15,4 +15,11 @@ public class SecurityConstant {
 //	public static final String [] PUBLIC_URLS = {"/user/login","/user/register","/user/resetpassword/**, /user/image/**"}; //URL QUE NE VOULONS PAS BLOQUER Et we allow anything after /**
 	
 	public static final String [] PUBLIC_URLS = {"*"} ;
+	
+	public static final String DEFAULT_USER_IMAGE_PATH = "/user/image/profile/temp";
+	public static final String USER_ALREADY_EXIST_WITH_THIS_EMAIL = "Un utilisateur avec cette adresse mail exist déjà";
+	public static final String USERNAME_ALREADY_EXIST = "L'username existe déjà ";
+	public static final String FOUND_USER_BY_USERNAME = "Returning : trouver l'utilisateur par l'username : ";
+	public static final String USER_NOT_FOUND_BY_USERNAME = "User not found by username";
+	public static final String NEW_USER_PASSWORD = "New user password : "; 
 }
