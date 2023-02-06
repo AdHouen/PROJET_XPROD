@@ -35,6 +35,7 @@ import static com.xprod.spring.xprod.enumeration.Role.*;
 @Qualifier("UserDetailsService")
 public class UserServiceImpl implements IUserService, UserDetailsService{
 	
+
 	private Logger LOGGER = LoggerFactory.getLogger(getClass());
 	private IUserRepository iUserRepository;
 	private BCryptPasswordEncoder passwordEncoder;
@@ -65,7 +66,8 @@ public class UserServiceImpl implements IUserService, UserDetailsService{
 		}
 		
 	}
-
+	// Ajoute également un objet utilisateur dans la base de données, réserver au front office elle est destinée 
+	// à l'ajout d'un utilisateur lorsqu'un utilisateur créé un compte dans l'application
 	@Override
 	public User register(String firstName, String lastName, String username, String email) {
 		try {
@@ -119,6 +121,8 @@ public class UserServiceImpl implements IUserService, UserDetailsService{
 		return RandomStringUtils.randomNumeric(10);
 	}
 
+	// validateNewUsernameAndEmail() est appelé par validateNewUsernameAndEmail() et register()
+	// elle vérifie si les valeurs Username et Email appartiennent déjà à un utlisateur 
 	private User validatedNewUsernameAndEmail(String currentUsername, String newUsername, String newEmail) throws UserNotFoundException, UsernameExistException, EmailExistException  {
 		
 		User userNewByUsername = findUserByUsername(newUsername);
@@ -170,24 +174,21 @@ public class UserServiceImpl implements IUserService, UserDetailsService{
 
 	@Override
 	public List<User> getUsers() {
-		// TODO Auto-generated method stub
-		return null;
+		return  iUserRepository.findAll();
 	}
 
 
 
 	@Override
 	public User findUserByUsername(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		return iUserRepository.findUserByUsername(username);
 	}
 
 
 
 	@Override
 	public User findUserByEmail(String email) {
-		// TODO Auto-generated method stub
-		return null;
+		return iUserRepository.findUserByEmail(email);
 	}
 	
 	
