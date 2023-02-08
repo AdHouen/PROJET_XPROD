@@ -3,6 +3,9 @@ package com.xprod.spring.xprod.service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import javax.mail.MessagingException;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -23,7 +26,9 @@ import com.xprod.spring.xprod.exception.domain.EmailExistException;
 import com.xprod.spring.xprod.exception.domain.UserNotFoundException;
 import com.xprod.spring.xprod.exception.domain.UsernameExistException;
 import com.xprod.spring.xprod.repository.IUserRepository;
+import com.xprod.spring.xprod.service.EmailService;
 import com.xprod.spring.xprod.service.IUserService;
+import com.xprod.spring.xprod.service.LoginAttemptService;
 
 import jakarta.transaction.Transactional;
 
@@ -42,14 +47,21 @@ public class UserServiceImpl implements IUserService, UserDetailsService{
 	private Logger LOGGER = LoggerFactory.getLogger(getClass());
 	private IUserRepository iUserRepository;
 	private BCryptPasswordEncoder passwordEncoder;
+	private LoginAttemptService loginAttemptService;
+	private EmailService emailService;
 	
 
 	@Autowired
-	public UserServiceImpl(IUserRepository iUserRepository, BCryptPasswordEncoder passwordEncoder) {
+	public UserServiceImpl(IUserRepository iUserRepository, BCryptPasswordEncoder passwordEncoder,
+			LoginAttemptService loginAttemptService, EmailService emailService) {
 		super();
 		this.iUserRepository = iUserRepository;
 		this.passwordEncoder = passwordEncoder;
+		this.loginAttemptService = loginAttemptService;
+		this.emailService = emailService;
 	}
+	
+
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -59,6 +71,11 @@ public class UserServiceImpl implements IUserService, UserDetailsService{
 			throw new UsernameNotFoundException(USER_NOT_FOUND_BY_USERNAME + username);
 			
 		}else {
+			try {
+				validateLoginAttempt(user);
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+			}
 			user.setLastLoginDateDisplay(user.getLastLoginDate());
 			user.setLastLoginDate(new Date());
 			iUserRepository.save(user);
@@ -69,6 +86,21 @@ public class UserServiceImpl implements IUserService, UserDetailsService{
 		}
 		
 	}
+	private void validateLoginAttempt(User user) throws ExecutionException {
+		if (user.isNotLocked()) {
+			if (loginAttemptService.hasExceededMaxAttempts(user.getUsername())) {
+				
+				user.setNotLocked(false);
+				
+			} else {
+				user.setNotLocked(true);
+			}
+			
+		} else {
+			loginAttemptService.evictUserFromLoginAttemptCache(user.getUsername());
+		}
+	}
+
 	// Ajoute également un objet utilisateur dans la base de données, réserver au front office elle est destinée 
 	// à l'ajout d'un utilisateur lorsqu'un utilisateur créé un compte dans l'application
 	@Override
@@ -91,12 +123,12 @@ public class UserServiceImpl implements IUserService, UserDetailsService{
 			user.setNotLocked(true);
 			user.setRole(ROLE_USER.name());
 			user.setAuthorities(ROLE_USER.getAuthorities());
-			user.setProfileImageURL(getTemporaryProfilImageUrl());
-			
+			user.setProfileImageURL(getTemporaryProfilImageUrl());			
 			iUserRepository.save(user);
 			LOGGER.info(NEW_USER_PASSWORD+password);
+			emailService.sendNewPasswordEmail(firstName, password, email);
 			
-		} catch (UserNotFoundException | UsernameExistException |EmailExistException e) {
+		} catch (UserNotFoundException | UsernameExistException |EmailExistException  | MessagingException e) {
 			
 			e.printStackTrace();
 		
@@ -126,40 +158,40 @@ public class UserServiceImpl implements IUserService, UserDetailsService{
 
 	// validateNewUsernameAndEmail() est appelé par validateNewUsernameAndEmail() et register()
 			// elle vérifie si les valeurs Username et Email appartiennent déjà à un utlisateur 
-			private User validatedNewUsernameAndEmail(String currentUsername, String newUsername, String newEmail)
-					throws UserNotFoundException, UsernameExistException, EmailExistException {
+	private User validatedNewUsernameAndEmail(String currentUsername, String newUsername, String newEmail)
+			throws UserNotFoundException, UsernameExistException, EmailExistException {
 
-				User userByNewUsername = findUserByUsername(newUsername);
-				User userByNewEmail = findUserByEmail(newEmail);
+		User userByNewUsername = findUserByUsername(newUsername);
+		User userByNewEmail = findUserByEmail(newEmail);
 
-				if (StringUtils.isNotBlank(currentUsername)) {
-					User currentUser = findUserByUsername(currentUsername);
+		if (StringUtils.isNotBlank(currentUsername)) {
+			User currentUser = findUserByUsername(currentUsername);
 
-					if (currentUser == null) {
-						throw new UserNotFoundException(USER_NOT_FOUND_BY_USERNAME + currentUsername);
-					}
-
-					if (userByNewUsername != null && !currentUser.getIdUser().equals(userByNewUsername.getIdUser())) {
-
-						throw new UsernameExistException(USERNAME_ALREADY_EXIST);
-					}
-
-					if (userByNewEmail != null && !currentUser.getIdUser().equals(userByNewEmail.getIdUser())) {
-						throw new EmailExistException(USER_ALREADY_EXIST_WITH_THIS_EMAIL);
-					}
-					return currentUser;
-				} else {
-
-					if (userByNewUsername != null) {
-						throw new UsernameExistException(USERNAME_ALREADY_EXIST + userByNewUsername);
-					}
-
-					if (userByNewEmail != null) {
-						throw new EmailExistException(USER_ALREADY_EXIST_WITH_THIS_EMAIL + currentUsername + userByNewEmail);
-					}
-					return null;
-				}
+			if (currentUser == null) {
+				throw new UserNotFoundException(USER_NOT_FOUND_BY_USERNAME + currentUsername);
 			}
+
+			if (userByNewUsername != null && !currentUser.getIdUser().equals(userByNewUsername.getIdUser())) {
+
+				throw new UsernameExistException(USERNAME_ALREADY_EXIST);
+			}
+
+			if (userByNewEmail != null && !currentUser.getIdUser().equals(userByNewEmail.getIdUser())) {
+				throw new EmailExistException(USER_ALREADY_EXIST_WITH_THIS_EMAIL);
+			}
+			return currentUser;
+		} else {
+
+			if (userByNewUsername != null) {
+				throw new UsernameExistException(USERNAME_ALREADY_EXIST + userByNewUsername);
+			}
+
+			if (userByNewEmail != null) {
+				throw new EmailExistException(USER_ALREADY_EXIST_WITH_THIS_EMAIL + currentUsername + userByNewEmail);
+			}
+			return null;
+		}
+	}
 
 
 
@@ -181,6 +213,8 @@ public class UserServiceImpl implements IUserService, UserDetailsService{
 	public User findUserByEmail(String email) {
 		return iUserRepository.findUserByEmail(email);
 	}
+	
+	
 	
 	
 
