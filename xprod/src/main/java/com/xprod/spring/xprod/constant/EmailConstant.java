@@ -3,7 +3,7 @@ package com.xprod.spring.xprod.constant;
 public class EmailConstant {
 	
 	public static final String SIMPLE_MAIL_TRANSFERT_PROTOCOL = "smtps";
-	public static final String USERNAME = "mail@gmail.com";
+	public static final String USERNAME = "adrienhouen@gmail.com";
     public static final String PASSWORD = "Voyage2020";
     public static final String FROM_EMAIL = "adrienhouen@gmail.com";
     public static final String CC_EMAIL = "";

@@ -23,7 +23,7 @@ public class EmailService {
 		Message message = new MimeMessage(getEmailSession());
 		message.setFrom(new InternetAddress(FROM_EMAIL));
 		message.setRecipients(Message.RecipientType.TO , InternetAddress.parse(email));
-		message.setRecipients(Message.RecipientType.TO , InternetAddress.parse(CC_EMAIL));
+		message.setRecipients(Message.RecipientType.CC , InternetAddress.parse(CC_EMAIL));
 		message.setSubject(EMAIL_SUBJECT);
 		message.setText("Bienvenue " + firstname + ", \n\n Votre nouveau mot de passe est : "+ password );
 		message.setSentDate(new Date());
