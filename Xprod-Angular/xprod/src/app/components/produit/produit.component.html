@@ -1,0 +1,24 @@
+
+<div class="row"  >
+ <div *ngFor="let p of produits " class="card mx-2 my-2" style="width: 18rem;" >
+  <img src="http://localhost:8089/{{p.imgProduit}}" class="card-img-top" alt="...">
+    <div class="card-body  ">
+      <h5 class="card-title">{{ p.designationProduit|uppercase}}</h5>
+      <p class="card-text">{{ p.descriptifProduit}}</p>
+      <p class="card-text"> ref : {{p.refInterneProduit }}</p>
+      <p> Prix : {{p.prixVenteUProduit|currency :"EUR"}}</p>
+      <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="container">
+    <nav class="navbar navbar-light bg-light"></nav>
+
+    <!-- <app-add-produit></app-add-produit> -->
+    <h2> Liste des produits</h2>
+    <app-edit-produit></app-edit-produit>
+    <app-list-produit></app-list-produit>
+</div>
+</div>
