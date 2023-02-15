@@ -3,17 +3,17 @@
     <h2>Sign up / LogIn</h2>
     <form #loginForm="ngForm"(ngSubmit)="onLogin(loginForm.value)">
       <div class="user-box" >
-        <input type="text" id="username" placeholder="Username" ngModel #usernameInput="ngModel" required>
-        <span class="help-block" style="color:rgba(248, 38, 38, 0.844);" *ngIf="usernameInput.valid && usernameInput.touched" >Veuillez entrer un username</span>
+        <input type="text" id="username" name="username" placeholder="Username" ngModel #usernameInput="ngModel" required>
+        <span class="help-block" style="color:rgba(248, 38, 38, 0.844);" *ngIf="usernameInput.invalid && usernameInput.touched" >Veuillez entrer un username</span>
         <label>Username</label>
 
       </div>
       <div class="user-box">
-        <input type="password" id="password" placeholder="Password"  ngModel #passwordInput="ngModel" required>
-        <span class="help-block" style="color:rgba(248, 38, 38, 0.844);" *ngIf="passwordInput.valid && passwordInput.touched" >Veuillez entrer un password</span>
+        <input type="password" id="password" placeholder="Password" name="password" ngModel #passwordInput="ngModel" required>
+        <span class="help-block" style="color:rgba(248, 38, 38, 0.844);" *ngIf="passwordInput.invalid && passwordInput.touched" >Veuillez entrer un password</span>
         <label>Password</label>
       </div>
-      <button type="button" id="submit" >
+      <button type="button"  >
         <span></span>
         <span></span>
         <span></span>
