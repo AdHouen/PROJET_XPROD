@@ -1,3 +1,6 @@
+import { UserComponent } from './components/user/user/user.component';
+import { RegisterComponent } from './components/register/register/register.component';
+import { LoginComponent } from './components/login/login/login.component';
 import { EditProduitComponent } from './components/edit-produit/edit-produit.component';
 import { ListProduitComponent } from './components/list-produit/list-produit.component';
 import { NgModule } from '@angular/core';
@@ -14,10 +17,21 @@ const routes: Routes = [
   },{
     path : 'edit/:idProduit',
     component:EditProduitComponent
+  },{
+    path : 'login',
+    component:LoginComponent
+  },{
+    path : 'register',
+    component:RegisterComponent
+  },{
+    path : 'user/management',
+    component:UserComponent
   },
+
+
   {
     path : '',
-    redirectTo:'produit',
+    redirectTo:'login',
     pathMatch:'full',
 
   }

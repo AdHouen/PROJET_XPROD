@@ -1,3 +1,6 @@
+import { UserComponent } from './components/user/user/user.component';
+import { RegisterComponent } from './components/register/register/register.component';
+import { LoginComponent } from './components/login/login/login.component';
 import { NotificationService } from './services/notification/notification.service';
 import { NotificationModule } from './notification.module';
 import { AuthenticationGuard } from './guard/authentication.guard';
@@ -22,7 +25,11 @@ import { AuthenticationService } from './services/authentication/authentication.
     ProduitComponent,
     AddProduitComponent,
     ListProduitComponent,
-    EditProduitComponent
+    EditProduitComponent,
+    LoginComponent,
+    RegisterComponent,
+    UserComponent
+
   ],
   imports: [
     BrowserModule,
