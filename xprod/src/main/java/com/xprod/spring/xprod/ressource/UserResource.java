@@ -3,13 +3,13 @@ package com.xprod.spring.xprod.ressource;
 
 import java.util.List;
 
-import org.apache.catalina.authenticator.SpnegoAuthenticator.AuthenticateAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,13 +22,12 @@ import com.xprod.spring.xprod.exception.domain.ExceptionHandling;
 import com.xprod.spring.xprod.service.IUserService;
 import com.xprod.spring.xprod.utility.JWTTokenProvider;
 
-import lombok.RequiredArgsConstructor;
 
 import static com.xprod.spring.xprod.constant.SecurityConstant.*;
 
 @RestController
-@RequiredArgsConstructor
-@RequestMapping(path = {"/user"})
+@RequestMapping(path = {"/" , "/user"})
+@CrossOrigin(origins ="http://localhost:4200")
 public class UserResource extends ExceptionHandling{
 	@Autowired
 	private final IUserService iUserService;
@@ -84,6 +83,8 @@ public class UserResource extends ExceptionHandling{
 	public ResponseEntity<List<User>>getUser() {
 		return ResponseEntity.ok(iUserService.getUsers());
 	}
+	
+	
 
 	
 	
