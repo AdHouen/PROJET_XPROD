@@ -1,12 +1,12 @@
 export class User {
 
-    public id: number; // id de la base de données DB
-	
+    public uid: number; // id de la base de données DB
+
 	public userId: string; // id de l utilisateur
 	public  firstname : string;
 	public  lastname: string;
 	public  username: string;
-    public currentUsername: string;
+  public currentUsername: string;
 	public  email: string;
 	public  password: string;
 	public  mobileNumber: string;
@@ -19,13 +19,13 @@ export class User {
 	public  joinDate : Date;
 	public  role: string; // ROLE_USER(read,edit), ROLE_ADMIN(delete)
 	public  authorities : string[]; // [] = tableau de String // Authorities = permissions (read, edit, delete)
-	public  isActive : boolean;// Pour activer les rôles
-	public  isNotLocked : boolean;
+	public  active : boolean;// Pour activer les rôles
+	public  notLocked : boolean;
 
 
 
     constructor(){
-        this.id = 0,
+        this.uid = 0,
         this.userId = '',
 
         this.firstname = '',
@@ -49,10 +49,10 @@ export class User {
 
         this.authorities = [],
 
-        this.isActive = false,
-        this.isNotLocked = false;
+        this.active = false,
+        this.notLocked = false;
 
-      
+
       }
 
 

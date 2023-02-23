@@ -11,7 +11,7 @@ import { CustomHttpResponse } from 'src/app/models/custom-http-response';
 })
 export class UserService {
   private host = environment.apiUrl;
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
 
 
   }
@@ -67,13 +67,13 @@ export class UserService {
         }
       }
 
-      
+
        /* Si je vais dans mon local storage et que je recupere un item de users sinon je retourne un tableau vide --   if (localStorage.getItem('users')!=null) */
       public createUserFormData(loggedInUsername: string, user: User, profileImage: File) : FormData {
 
         const formData = new FormData();
-        formData.append('CurrentUsername', loggedInUsername);
-        formData.append('currentUsername', user.currentUsername);
+        formData.append('currentUsername', loggedInUsername);
+        // formData.append('currentUsername', user.currentUsername);
 
         formData.append('firstname', user.firstname);
         formData.append('lastname', user.lastname);
@@ -82,12 +82,12 @@ export class UserService {
         formData.append('address', user.address);
         formData.append('role', user.role);
         formData.append('profileImageURL', profileImage);
-        formData.append('isActive', JSON.stringify(user.isActive));
-        formData.append('isNonLocked', JSON.stringify(user.isNotLocked));
+        formData.append('isActive', JSON.stringify(user.active));
+        formData.append('isNonLocked', JSON.stringify(user.notLocked));
 
         return formData;
       }
 
-      
+
 
 }

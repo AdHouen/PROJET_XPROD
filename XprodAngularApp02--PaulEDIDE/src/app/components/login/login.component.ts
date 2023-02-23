@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit,OnDestroy {
 
   public onLogin(user: User): void{
     this.showLoading = true;
-    console.log(user);
+    // console.log(user);
 
     this.subscriptions.push(this.authenticationService.login(user).subscribe(
       (response: HttpResponse<User>)=>  {
@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit,OnDestroy {
       }
       )
     )
-    
+
   }
   private sendErrorNotification(notificationType: NotificationType, message: string): void {
     if(message){

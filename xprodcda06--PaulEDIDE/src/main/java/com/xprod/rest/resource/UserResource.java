@@ -156,11 +156,11 @@ public class UserResource extends ExceptionHandling {
 	}
 
 	@DeleteMapping("/delete/{id}")
-	@PreAuthorize("hasAnyAuthority('user: delete')")
+	@PreAuthorize("hasAnyAuthority('user:delete')")
 	public ResponseEntity<HttpResponse> deleteUser(@PathVariable("id") long id)
 			throws EmailNotFoundException, MessagingException {
 		userService.deleteUser(id);
-		return response(NO_CONTENT, USER_DELETED_SUCCESSFULLY+ id);
+		return response(HttpStatus.OK, USER_DELETED_SUCCESSFULLY+ id);
 	}
 	
 	@PostMapping("/updateProfileImage")
