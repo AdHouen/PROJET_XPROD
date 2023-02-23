@@ -114,13 +114,13 @@
 		    <legend>Gestion des passwords Utilisateur</legend>
 		    <div class="form-group">
 			      <label for="exampleInputEmail">Email Adresse</label>
-			      <input type="email" name="reset-password-email" required ngModel class="form-control" placeholder="-- Entrer email (exemple@email.com)">
+			      <input type="email" name="reset-password-email" required ngModel class="form-control" placeholder="Entrer l'email (exemple@email.com)">
 			      <small class="form-text text-muted">Nous ne partagerons jamais votre adresse électronique avec qui que ce soit</small>
 		    </div>
         <button type="submit" [disabled]="false" class="btn btn-primary">
             <i *ngIf="refreshing" class="fas fa-spinner fa-spin"></i>&nbsp;&nbsp;
             <span *ngIf="refreshing">Loading...</span>
-            <span *ngIf="!refreshing">Reset Password...</span>
+            <span *ngIf="!refreshing">Reset Password</span>
         </button>
 
 
