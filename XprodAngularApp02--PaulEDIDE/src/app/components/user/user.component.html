@@ -107,6 +107,8 @@
   </div>
   <button [hidden]="true" type="button" id="openUserInfo" data-toggle="modal" data-target="#viewUserModal"></button>
   <button [hidden]="true" type="button" id="openUserEdit" data-toggle="modal" data-target="#editUserModal"></button>
+
+  
   <!-- Changer de password -->
   <div class="tab-pane fade" id="reset-password">
     <form #resetPasswordForm="ngForm" (ngSubmit)="onResetPassword(resetPasswordForm)">
@@ -122,12 +124,56 @@
             <span *ngIf="refreshing">Loading...</span>
             <span *ngIf="!refreshing">Reset Password</span>
         </button>
-
-
 		</fieldset>
-
     </form>
+  </div>
 
+  <!-- Nom du user connecté  -->
+  <div class="tab-pane fade" id="profile">
+        <div class="container">
+            <div class="row flex-lg-nowrap">
+                <div class="col">
+                    <div class="row">
+                        <div class="col mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="e-profile">
+                                        <div class="row">
+                                            <div class="col-12 col-sm-auto">
+                                                <div class="mx-auto" style="width: 120px;">
+                                                    <div class="d-flex justify-content-center align-items-center rounded">
+                                                        <img src="{{user?.profileImageURL}}" alt="" height="135" width="135" class="rounded">
+                                                    </div>
+                                                    <div class="progress mt-1">
+                                                        <div class="progress-bar bg-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                                            50%
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                            <div class="col d-flex flex-column flex sm-row justify-content-between mb-3">
+                                                <div class="text-center text-sm-left mb-2 mb-sm-0">
+                                                    <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">
+                                                        {{user?.firstname}} {{user?.lastname}}
+                                                    </h4>
+                                                    <p class="mb-0">{{user?.username}}</p>
+                                                    <div *ngIf="user?.lastLoginDateDisplay !==null" class="text-muted">
+                                                        <small>Dernière connexion : {{user?.lastLoginDateDisplay | date :'medium'}</small>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
   </div>
 
   <!-- modal utilisateur infos -->

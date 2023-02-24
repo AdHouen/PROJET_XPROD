@@ -34,6 +34,7 @@ import com.xprod.rest.exception.domain.NotAnImageFileException;
 import com.xprod.rest.exception.domain.UserNotFoundException;
 import com.xprod.rest.exception.domain.UsernameExistException;
 import com.xprod.rest.repository.UserRepository;
+import com.xprod.rest.service.EmailService;
 import com.xprod.rest.service.LoginAttemptService;
 import com.xprod.rest.service.UserService;
 
@@ -55,6 +56,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	private Logger LOGGER = LoggerFactory.getLogger(getClass());
 	private BCryptPasswordEncoder passwordEncoder;
 	private LoginAttemptService loginAttemptService;
+	private EmailService emailService;
 
 	@Autowired
 	public UserServiceImpl(UserRepository iUserRepository, BCryptPasswordEncoder passwordEncoder,
@@ -63,6 +65,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		this.iUserRepository = iUserRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.loginAttemptService = loginAttemptService;
+		this.emailService = emailService;
 
 	}
 	
@@ -246,6 +249,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		String password = generatePassword();
 		user.setPassword(encodePassword(password));
 		iUserRepository.save(user);
+		LOGGER.info("Nouveau password utilisateur : "+password);
+		// emailService.sendNewPasswordEmail(user.getFirstname(), password, user.getEmail());
 	}
 
 	// updateProfileImage() met à jour l'image de profile

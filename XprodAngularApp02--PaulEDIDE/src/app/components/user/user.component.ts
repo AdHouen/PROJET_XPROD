@@ -26,8 +26,7 @@ export class UserComponent implements OnInit {
   declare public profileImage: File;
   public editUser = new User() ;
   declare public currentUsername: string;
-  declare user : any;
-  declare isAdmin : any;
+  declare user : User;
 
 
   constructor(

@@ -17,9 +17,9 @@ export class AuthenticationService {
   declare private tok : string;
 
   constructor(
-private http:HttpClient, 
-  ) { 
-   
+private http:HttpClient,
+  ) {
+
     /*this.token='';
     this.loggedInUsername='';*/
   }
@@ -50,12 +50,12 @@ private http:HttpClient,
     localStorage.setItem('token', token);
   }
 
-  
+
   public addUserToLocalCache(user: User): void {
     localStorage.setItem('user', JSON.stringify(user));
   }
 
- 
+
   public getUserFromLocalCache() : User {
     return JSON.parse(localStorage.getItem('user')!); /* || '{}' */
   }
@@ -66,15 +66,17 @@ private http:HttpClient,
     this.token != localStorage.getItem('token'); /* || '{}' */
   }
 
-  /* Récupère le TOKEN de la méthode loadToken() pour pouvoir l'utiliser */ 
+  /* Récupère le TOKEN de la méthode loadToken() pour pouvoir l'utiliser */
   public getToken() : string {
     return this.token;
   }
 
-  /* Vérifie si l'utilisateur est connecté  */ 
+  /* Vérifie si l'utilisateur est connecté  */
   public isUserLoggedIn() : boolean {
-     const tok = this.loadToken();
-     console.log("Résultat de isLoggedIn() en ajoutant la réponse de loadToken() dans une variable : [ " + tok + " ]  Authentication > isLoggedIn() - Voir l'autre méthode en commentaire sous la méthode en cas d'erreur");
+    // this.loadToken();
+    const tok =this.token;
+    //  const tok = this.loadToken();
+    // console.log("Résultat de isLoggedIn() en ajoutant la réponse de loadToken() dans une variable : [ " + tok + " ]  Authentication > isLoggedIn() - Voir l'autre méthode en commentaire sous la méthode en cas d'erreur");
 
     if(tok!=null && tok !=='') {
       if(this.jwtHelper.decodeToken(tok).sub != null || '') {
@@ -91,6 +93,6 @@ private http:HttpClient,
     return false;
   }
 
-   
+
 
 }
