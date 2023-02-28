@@ -255,14 +255,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	// updateProfileImage() met à jour l'image de profile
 	@Override
-	public User updateProfileImage(String username, MultipartFile profileImage) throws NotAnImageFileException {
-		try {
+	public User updateProfileImage(String username, MultipartFile profileImage) throws NotAnImageFileException, IOException, UserNotFoundException, UsernameExistException, EmailExistException {
+		
 			User user = validateNewUsernameAndEmail(username, null, null);
 			saveProfileImage(user, profileImage);
 			return user;
-		} catch (UserNotFoundException | UsernameExistException | EmailExistException | IOException e) {
-		}
-		return null;
+		
 	}
 
 	// encodePassword() encode le mot de passe de l'utilisateur

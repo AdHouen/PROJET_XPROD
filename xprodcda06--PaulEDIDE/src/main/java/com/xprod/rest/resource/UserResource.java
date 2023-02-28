@@ -168,7 +168,7 @@ public class UserResource extends ExceptionHandling {
 		
 			@RequestParam("username") String username, 
 			@RequestParam(value = "profileImage") MultipartFile profileImage)
-			throws UserNotFoundException, UsernameExistException, IOException, NotAnImageFileException {
+			throws UserNotFoundException, UsernameExistException, IOException, NotAnImageFileException, EmailExistException {
 				User user = userService.updateProfileImage(username, profileImage);
 				return new ResponseEntity<>(user, HttpStatus.OK);
 	}
@@ -177,6 +177,7 @@ public class UserResource extends ExceptionHandling {
 	public byte[] gProfileImage(@RequestParam("username")String username, @RequestParam("fileName")String fileName)
 	throws IOException {
 		return Files.readAllBytes(Paths.get(USER_FOLDER+username+FORWARD_SLASH+fileName));
+											//"user.home"+"/xprod/user/EgonAdmin/EgonAdmin.jpg"
 	}
  
 	

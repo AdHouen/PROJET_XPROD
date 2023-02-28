@@ -1,5 +1,8 @@
+import { Router } from '@angular/router';
+import { AuthenticationService } from './../../services/authentication/authentication.service';
+import { Role } from './../../enum/role.enum';
 import { CustomHttpResponse } from 'src/app/models/custom-http-response';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent } from '@angular/common/http';
 import { NotificationType } from './../../enum/notification-type.enum';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { UserService } from './../../services/user/user.service';
@@ -7,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { User } from 'src/app/models/user/user';
 import { NgForm } from '@angular/forms';
+import { FileUploadStatus } from 'src/app/models/file-upload.status';
 
 @Component({
   selector: 'app-user',
@@ -14,7 +18,6 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
-
 
   private titleSubject = new BehaviorSubject<string>('Users');
   public titleAction$ = this.titleSubject.asObservable();
@@ -26,16 +29,19 @@ export class UserComponent implements OnInit {
   declare public profileImage: File;
   public editUser = new User() ;
   declare public currentUsername: string;
-  declare user : User;
-
+  declare public user : User;
+  public fileStatus = new FileUploadStatus();
 
   constructor(
     private userService : UserService,
-    private notificationService : NotificationService
+    private authenticationService:AuthenticationService,
+    private notificationService : NotificationService,
+    private router : Router
     ) {
 
   }
   ngOnInit(): void {
+    this.user = this.authenticationService.getUserFromLocalCache();
     this.getUsers(true);
   }
 
@@ -43,6 +49,21 @@ export class UserComponent implements OnInit {
     this.titleSubject.next(title);
   }
 
+  // Méthode pour récupérole le rôle et les authorisations
+  public get isAdmin():boolean{
+    return this.getUserRole() === Role.ADMIN || this.getUserRole() === Role.SUPER_ADMIN;
+  }
+  public get isManager():boolean{
+    return this.isAdmin || this.getUserRole() === Role.MANAGER
+  }
+  public getUserRole(): string {
+    return this.authenticationService.getUserFromLocalCache().role;
+  }
+  public get isAdminManager():boolean{
+    return this.isAdmin || this.isManager;
+  }
+
+  // Méthode pour récupérer les Users et les mettrent dans le cache
   public getUsers(showNotification : boolean) : void {
     this.refreshing = true;
     this.subscription.push(
@@ -63,6 +84,7 @@ export class UserComponent implements OnInit {
       )
     );
   }
+
   // Button qui permet de voir les infos de l'utilisateur
   public onSelectUser(selectedUser :User) : void {
     this.selectedUser = selectedUser;
@@ -75,8 +97,44 @@ export class UserComponent implements OnInit {
     this.fileName = fileName;
     this.profileImage = profileImage;
 
+  }
+
+  //Méthode pour update la photo de profile
+  public updateProfileImage() : void {
+    this.clickButton('profile-image-input');
+
+  }
+  public onUpdateProfileImage() : void {
+    const formData = new FormData();
+    formData.append('username', this.user.username);
+    formData.append('profileImage', this.profileImage);
+    this.subscription.push(
+      this.userService.updateProfileImage(formData).subscribe(
+        (event : HttpEvent<any>) => {
+          // this.reportUploadProgress(event);
+          this.sendNotification(NotificationType.SUCCESS, "Image changée avec succes");
+
+        },
+        (errorResponse: HttpErrorResponse) => {
+          this.sendNotification(NotificationType.ERROR, errorResponse.error.message);
+          this.fileStatus.status = 'done';
+
+      }
+
+      )
+    );
+  }
 
 
+
+
+  reportUploadProgress(event: HttpEvent<any>) {
+    throw new Error('Method not implemented.');
+  }
+
+  // Méthode MAJ du current User
+  onUpdateCurrentUser(_t140: NgForm) {
+    throw new Error('Method not implemented.');
   }
 
 
@@ -166,6 +224,14 @@ export class UserComponent implements OnInit {
         }
       )
     )
+
+  }
+
+  // Méthode pour se déconecter
+  onLogout() {
+    this.authenticationService.logOut();
+    this.router.navigate(['/login']);
+    this.sendNotification(NotificationType.SUCCESS, "Vous vous êtes bien déconnecté avec succes");
 
   }
 

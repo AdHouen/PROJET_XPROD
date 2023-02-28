@@ -22,8 +22,6 @@ export class User {
 	public  active : boolean;// Pour activer les rôles
 	public  notLocked : boolean;
 
-
-
     constructor(){
         this.uid = 0,
         this.userId = '',

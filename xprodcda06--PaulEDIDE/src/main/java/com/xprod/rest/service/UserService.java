@@ -23,7 +23,7 @@ public interface UserService {
 
 	User findUserByUsername(String username);
 	
-	User updateProfileImage(String username, MultipartFile profileImage) throws NotAnImageFileException;
+	User updateProfileImage(String username, MultipartFile profileImage) throws NotAnImageFileException, IOException, UserNotFoundException, UsernameExistException, EmailExistException;
 
 	User addNewUser(String firstname, String lastname, String username, String email, String role, boolean isActive, 
 			boolean isNonLocked, MultipartFile profileImage) throws NotAnImageFileException, IOException, UserNotFoundException, UsernameExistException, EmailExistException;
