@@ -381,7 +381,13 @@
             </div>
             <div class="form-group">
               <label for="password">Password</label>
-              <input type="password" name="password" required ngModel class="form-control">
+              <input type="password" name="password" required ngModel #passwordInput= "ngModel" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="confirmPassword">Confirm password</label>
+              <input type="password" name="confirmPassword" required ngModel #confirmPasswordInput= "ngModel" class="form-control">
+              <span class="help-block" style="color:red;" *ngIf="confirmPasswordInput.value !== passwordInput.value">le mot de passe ne corespond pas</span>
+              <span class="help-block" style="color:green;" *ngIf="confirmPasswordInput.value == passwordInput.value">le mot de passe coresspond</span>
             </div>
             <div class="form-group">
               <label for="authority">Rôle</label>
