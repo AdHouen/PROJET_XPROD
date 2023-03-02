@@ -1,9 +1,11 @@
 package com.xprod.rest.service.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -56,7 +58,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	private Logger LOGGER = LoggerFactory.getLogger(getClass());
 	private BCryptPasswordEncoder passwordEncoder;
 	private LoginAttemptService loginAttemptService;
+	
+	/*A SUPPRIMER APRES TEST*/
 	private EmailService emailService;
+	/**/
+	
 
 	@Autowired
 	public UserServiceImpl(UserRepository iUserRepository, BCryptPasswordEncoder passwordEncoder,
@@ -65,7 +71,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		this.iUserRepository = iUserRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.loginAttemptService = loginAttemptService;
-		this.emailService = emailService;
 
 	}
 	
@@ -73,7 +78,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	// utilisateur exécuté par un administrateur de l'application
 	public User addNewUser(String firstname, String lastname, String username, String email, String role,
 			boolean isNonLocked, boolean isActive, MultipartFile profileImage) throws NotAnImageFileException, UserNotFoundException, UsernameExistException, EmailExistException, IOException {
-		
+		//try {
 			validateNewUsernameAndEmail(EMPTY, username, email);
 			User user = new User();
 
@@ -97,14 +102,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			saveProfileImage(user, profileImage);
 
 			return user;
-		
+		//} catch (UserNotFoundException | UsernameExistException | EmailExistException | IOException e) {
+		//	e.printStackTrace();
+		//}
+		//return null;
 	}
 	
 	// Ajoute également un objet utilisateur dans la base de données, réserver au front office elle est destinée 
 	// à l'ajout d'un utilisateur lorsqu'un utilisateur créé un compte dans l'application
 	@Override
 	public User register(String firstname, String lastname, String username, String email) throws UserNotFoundException, UsernameExistException, EmailExistException {
-		
+		//try {
 			validateNewUsernameAndEmail(StringUtils.EMPTY, username, email);
 			User user = new User();
 			String password = generatePassword();
@@ -120,17 +128,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			user.setNotLocked(true);
 			user.setRole(ROLE_USER.name());
 			user.setAuthorities(ROLE_USER.getAuthorities());
-			user.setProfileImageURL(setProfileImageUrl(username));
+			//user.setProfileImageURL(setProfileImageUrl(username));
+			user.setProfileImageURL(setProfileImageUrl("shape.png"));
 			iUserRepository.save(user);
 			LOGGER.info(NEW_USER_PASSWORD + password);
 			return user;
 
-		
+		//} catch (UserNotFoundException | UsernameExistException | EmailExistException  e) {
+		//	e.printStackTrace();
+		//}
+		//return null;
 	}
 
 	// saveProfileImage() est appelée par addNewUser() elle permet la création d'une image de profile
 	private void saveProfileImage(User user, MultipartFile profileImage) throws IOException,NotAnImageFileException {
-		if (profileImage != null) {
+		/*if (profileImage != null) {
 			if(!Arrays.asList(IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE, IMAGE_GIF_VALUE).contains(profileImage.getContentType())) {
 				throw new NotAnImageFileException(profileImage.getOriginalFilename()+ NOT_AN_IMAGE_FILE);
 			}
@@ -146,15 +158,45 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			user.setProfileImageURL(setProfileImageUrl(user.getUsername()));
 			iUserRepository.save(user);
 			LOGGER.info(FILE_SAVED_IN_SYSTEM +profileImage.getOriginalFilename());
+		}*/
+		
+		
+		if (profileImage != null) {
+			if(!Arrays.asList(IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE, IMAGE_GIF_VALUE).contains(profileImage.getContentType())) {
+				throw new NotAnImageFileException(profileImage.getOriginalFilename()+ NOT_AN_IMAGE_FILE);
+			}
+			
+			File f=new File("src/main/resources/static/images/profile/");
+			final Path userFolder=Paths.get(f.getAbsolutePath());
+			
+			/*if (!Files.exists(userFolder)) {
+				Files.createDirectories(userFolder);
+				LOGGER.info(DIRECTORY_CREATED);
+			}*/
+			//System.out.println(userFolder.resolve(user.getUsername()+ DOT+JPG_EXTENSION));
+			
+			
+			Files.deleteIfExists(Paths.get(userFolder+user.getUsername()+ DOT +JPG_EXTENSION));
+			
+			
+			Files.copy(profileImage.getInputStream(),userFolder.resolve(user.getUsername()+DOT+JPG_EXTENSION),StandardCopyOption.REPLACE_EXISTING);
+//			Files.copy(profileImage.getInputStream(),userFolder.resolve(user.getUsername()+DOT+JPG_EXTENSION),REPLACE_EXISTING);
+			
+			
+			user.setProfileImageURL(setProfileImageUrl(user.getUsername()+DOT+JPG_EXTENSION));
+			iUserRepository.save(user);
+			LOGGER.info(FILE_SAVED_IN_SYSTEM +profileImage.getOriginalFilename());
+	//		return user;
 		}
+//		return null;
 
 	}
 
 	// setProfileImageUrl() est appelée par register() elle permet la création d'un avatar pour l'image de profile de 
 	//l'utilisateur
 	private String setProfileImageUrl(String username) {
-
-        return TEMP_PROFILE_IMAGE_BASE_URL + FORWARD_SLASH + username;
+		return FORWARD_SLASH + username;
+		//return TEMP_PROFILE_IMAGE_BASE_URL + FORWARD_SLASH + username;
   }
 
 	// Enumération d'une liste de rôles pour déterminer le(s) droit(s) d'un l'utilisateur dans l'application 
@@ -249,18 +291,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		String password = generatePassword();
 		user.setPassword(encodePassword(password));
 		iUserRepository.save(user);
-		LOGGER.info("Nouveau password utilisateur : "+password);
-		// emailService.sendNewPasswordEmail(user.getFirstname(), password, user.getEmail());
+		LOGGER.info("New user password "+password); // J'affiche le password dans les LOGGERS
+		//emailService.sendNewPasswordEmail(user.getFirstname(), password, user.getEmail());
 	}
 
 	// updateProfileImage() met à jour l'image de profile
 	@Override
-	public User updateProfileImage(String username, MultipartFile profileImage) throws NotAnImageFileException, IOException, UserNotFoundException, UsernameExistException, EmailExistException {
-		
+	public User updateProfileImage(String username, MultipartFile profileImage) throws NotAnImageFileException, UserNotFoundException, UsernameExistException, EmailExistException, IOException {
+		//try {
 			User user = validateNewUsernameAndEmail(username, null, null);
 			saveProfileImage(user, profileImage);
 			return user;
-		
+		//} catch (UserNotFoundException | UsernameExistException | EmailExistException | IOException e) {
+		//}
+		//return null;
 	}
 
 	// encodePassword() encode le mot de passe de l'utilisateur
@@ -305,11 +349,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		} else {
 
 			if (userByNewUsername != null) {
-				throw new UsernameExistException(USERNAME_ALREADY_EXIST);
+				throw new UsernameExistException(USERNAME_ALREADY_EXIST/* + userByNewUsername*/);
 			}
 
 			if (userByNewEmail != null) {
-				throw new EmailExistException(EMAIL_ALREADY_EXIST);
+				throw new EmailExistException(EMAIL_ALREADY_EXIST/* + currentUsername + userByNewEmail*/);
 			}
 			return null;
 		}

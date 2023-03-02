@@ -1,3 +1,4 @@
+import { AppSettings } from 'src/app/settings/app.settings';
 import { Router } from '@angular/router';
 import { AuthenticationService } from './../../services/authentication/authentication.service';
 import { Role } from './../../enum/role.enum';
@@ -18,6 +19,8 @@ import { FileUploadStatus } from 'src/app/models/file-upload.status';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
+
+  urlPict = AppSettings.IMG_PROFIL;
 
   private titleSubject = new BehaviorSubject<string>('Users');
   public titleAction$ = this.titleSubject.asObservable();
@@ -92,16 +95,31 @@ export class UserComponent implements OnInit {
 
   }
   // Méthode pour récupérer le nom et l'image
-  public onProfileImageChange(fileName : string, profileImage : File ):void{
-    // console.log(fileName, profileImage);
-    this.fileName = fileName;
-    this.profileImage = profileImage;
+  // public onProfileImageChange(fileName : string, profileImage : File ):void{
+  //   // console.log(fileName, profileImage);
+  //   this.fileName = fileName;
+  //   this.profileImage = profileImage;
 
+  // }
+
+  // Méthode pour récupérer le nom et l'image
+  public onProfileImageChange(event:any):void{
+    
+    
+    const files : File[] = event.target.files;
+    let file: File = event.target.files[event.target.files.length-1] as File;
+    
+    this.fileName = file.name;
+    this.profileImage = file;
+    console.log(this.fileName);
+  
   }
+
 
   //Méthode pour update la photo de profile
   public updateProfileImage() : void {
     this.clickButton('profile-image-input');
+    
 
   }
   public onUpdateProfileImage() : void {

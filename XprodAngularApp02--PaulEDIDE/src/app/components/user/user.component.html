@@ -73,7 +73,7 @@
     </thead>
     <tbody *ngFor="let appUser of users">
       <tr class="text-center">
-        <td (click)="onSelectUser(appUser)"><img class="rounded-circle img-fluid img-thumbnail" height="40" width="40" src="{{appUser?.profileImageURL}}" alt=""></td>
+        <td (click)="onSelectUser(appUser)"><img class="rounded-circle img-fluid img-thumbnail" height="40" width="40" src="{{urlPict+appUser?.profileImageURL}}" alt=""></td>
         <td (click)="onSelectUser(appUser)">{{appUser?.userId}}</td>
         <td (click)="onSelectUser(appUser)">{{appUser?.firstname}}</td>
         <td (click)="onSelectUser(appUser)">{{appUser?.lastname}}</td>
@@ -137,7 +137,7 @@
                     <div class="col-12 col-sm-auto">
                       <div class="mx-auto" style="width:120px;">
                         <div class=" d-flex justify-content text-align-center rounded" >
-                          <img src="{{user.profileImageURL}}" alt="" class="rounded" height="135px" width="135px">
+                          <img src="{{urlPict+user.profileImageURL}}" alt="" class="rounded" height="135px" width="135px">
                         </div>
                         <div class="progress mt-1">
                           <div class="progress-bar bg-info" role="progressbar"
@@ -298,7 +298,7 @@
               <div class="col-12 col-sm-auto">
                 <div class="mx-auto" style="width: 120px;">
                   <div class="d-flex justify-content-center align-items rounded">
-                    <img class="rounded" height="120" width="120" src="{{selectedUser?.profileImageURL}}" alt="{{selectedUser?.firstname}}">
+                    <img class="rounded" height="120" width="120" src="{{urlPict+selectedUser?.profileImageURL}}" alt="{{selectedUser?.firstname}}">
                   </div>
                 </div>
               </div>
@@ -397,7 +397,8 @@
                 <span class="input-group-text">Photo de profil</span>
               </div>
               <div class="custom-file">
-                <input type="file" name="profileImage" (change)="onProfileImageChange($any($event).target.files[0].name, $any($event).target.files[0])" class="custom-file-input">
+                <!-- <input type="file" name="profileImage" (change)="onProfileImageChange($any($event).target.files[0].name, $any($event).target.files[0])" class="custom-file-input"> -->
+                <input type="file" name="profileImage" (change)="onProfileImageChange($event)" class="custom-file-input">
                 <label class="custom-file-label">
                     <span [hidden]="!fileName">{{fileName}}</span>
                     <span [hidden]="fileName">-- Choisir une photo --</span>
@@ -475,7 +476,8 @@
                 <span class="input-group-text">Photo de profil</span>
               </div>
               <div class="custom-file">
-                <input type="file" name="profileImage" (change)="onProfileImageChange($any($event).target.files[0].name, $any($event).target.files[0])" class="custom-file-input">
+                <!-- <input type="file" name="profileImage" (change)="onProfileImageChange($any($event).target.files[0].name, $any($event).target.files[0])" class="custom-file-input"> -->
+                <input type="file" name="profileImage" (change)="onProfileImageChange($event)" class="custom-file-input">
                 <label class="custom-file-label">
                     <span [hidden]="!fileName">{{fileName}}</span>
                     <span [hidden]="fileName">-- Choisir une photo --</span>
@@ -506,7 +508,8 @@
 </div>
 <!-- Changement de l'image de profile -->
   <form enctype="multipart/form-data" style="display: none;">
-  <input type="file" (change)="onProfileImageChange($any($event).target.files[0].name, $any($event).target.files[0]); onUpdateProfileImage()" name="profile-image-input" id="profile-image-input" placeholder="file" accept="image/*">
+  <!-- <input type="file" (change)="onProfileImageChange($any($event).target.files[0].name, $any($event).target.files[0]); onUpdateProfileImage()" name="profile-image-input" id="profile-image-input" placeholder="file" accept="image/*"> -->
+  <input type="file" (change)="onProfileImageChange($event); onUpdateProfileImage()" name="profile-image-input" id="profile-image-input" placeholder="file" accept="image/*">
   </form>
 
 
