@@ -17,7 +17,7 @@ import com.xprod.rest.exception.domain.UsernameExistException;
 
 public interface UserService {
 
-	User register(String firstname, String lastname, String username, String email) throws UserNotFoundException, UsernameExistException, EmailExistException;
+	User register(String firstname, String lastname, String username, String email, String password) throws UserNotFoundException, UsernameExistException, EmailExistException;
 
 	User findUserByEmail(String email);
 
@@ -25,7 +25,7 @@ public interface UserService {
 	
 	User updateProfileImage(String username, MultipartFile profileImage) throws NotAnImageFileException, IOException, UserNotFoundException, UsernameExistException, EmailExistException;
 
-	User addNewUser(String firstname, String lastname, String username, String email, String role, boolean isActive, 
+	User addNewUser(String firstname, String lastname, String username, String email,String password ,String role, boolean isActive, 
 			boolean isNonLocked, MultipartFile profileImage) throws NotAnImageFileException, IOException, UserNotFoundException, UsernameExistException, EmailExistException;
 	
 	User updateUser(String currentUsername, String newFirstName, String newLastName, String newUsername,

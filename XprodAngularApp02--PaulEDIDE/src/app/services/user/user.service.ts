@@ -23,6 +23,7 @@ export class UserService {
 
   /* FormData injecte les données via un form Data voir dans postman (formulaire); il faut une key et une value */
   public addUser(formData: FormData) : Observable<User>{
+    console.log("je suis dans le service : "+formData);
     return this.http.post<User>(`${this.host}/user/add`, formData)
   }
 
@@ -79,6 +80,7 @@ export class UserService {
         formData.append('lastname', user.lastname);
         formData.append('username', user.username);
         formData.append('email', user.email);
+        formData.append('password', user.password);
         formData.append('address', user.address);
         formData.append('role', user.role);
         formData.append('profileImageURL', profileImage);

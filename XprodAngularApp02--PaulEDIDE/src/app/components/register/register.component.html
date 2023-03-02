@@ -38,7 +38,12 @@
                                 <div class="form-group mb-5">
                                     <label for="exampleInputEmail">E-mail</label>
                                     <input type="text" class="form-control" id="exampleInputEmail" name="email" placeholder="Email" ngModel #emailInput= "ngModel" required>
-                                    <span class="help-block" style="color:red;" *ngIf="emailInput.invalid && emailInput.touched">Please enter a password.</span>
+                                    <span class="help-block" style="color:red;" *ngIf="emailInput.invalid && emailInput.touched">Please enter an email</span>
+                                </div>
+                                <div class="form-group mb-5">
+                                  <label for="exampleInputPassword">Password</label>
+                                  <input type="password" class="form-control" id="exampleInputPassword" name="password" placeholder="password" ngModel #passwordInput= "ngModel" required minlength="2">
+                                  <span class="help-block" style="color:red;" *ngIf="passwordInput.invalid && passwordInput.touched">Please enter a password.</span>
                                 </div>
 
                                 <button type="submit" class="btn btn-theme" [disabled]="registerForm.invalid || showLoading">

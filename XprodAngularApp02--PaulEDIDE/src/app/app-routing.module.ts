@@ -13,7 +13,7 @@ const routes:Routes=[
 {path:'login',component:LoginComponent},
 {path:'register', component:RegisterComponent},
 
-{path:'user/management',component:UserComponent, canActivate:[AuthenticationGuard]},
+{path:'user/management',component:UserComponent},
 
 //{path:'',redirectTo:'/login',pathMatch:'full'},
 
@@ -23,7 +23,9 @@ const routes:Routes=[
 
 { path:'client', component :ClientComponent  },
 {    path:'produit', component :ProduitComponent  },
-{path:"cart",component:CartComponent, canActivate:[AuthenticationGuard]},
+{path:"cart",component:CartComponent },
+
+// canActivate:[AuthenticationGuard]
 
 
 ];

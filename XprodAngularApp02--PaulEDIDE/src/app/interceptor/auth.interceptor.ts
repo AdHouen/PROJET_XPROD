@@ -10,7 +10,7 @@ import { AuthenticationService } from '../services/authentication/authentication
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  
+
 
   constructor(private authenticationService:AuthenticationService) {}
 
@@ -26,7 +26,8 @@ export class AuthInterceptor implements HttpInterceptor {
    }
    this.authenticationService.loadToken();
    const token = this.authenticationService.getToken();
-   const request = httpRequest.clone({setHeaders:{Authorization:`Bearer ${token}`}});
-   return httpHandler.handle(request); 
+   const request = httpRequest.clone({setHeaders:{Authorization:``}});
+  //  const request = httpRequest.clone({setHeaders:{Authorization:`Bearer ${token}`}});
+   return httpHandler.handle(request);
   }
 }

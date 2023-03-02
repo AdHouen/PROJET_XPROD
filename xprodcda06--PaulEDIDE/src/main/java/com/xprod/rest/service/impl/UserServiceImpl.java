@@ -76,13 +76,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	
 	// Ajoute un objet utilisateur dans la base de données, réserver au back office elle est destinée à l'ajout d'un
 	// utilisateur exécuté par un administrateur de l'application
-	public User addNewUser(String firstname, String lastname, String username, String email, String role,
+	public User addNewUser(String firstname, String lastname, String username, String email, String password, String role,
 			boolean isNonLocked, boolean isActive, MultipartFile profileImage) throws NotAnImageFileException, UserNotFoundException, UsernameExistException, EmailExistException, IOException {
 		//try {
 			validateNewUsernameAndEmail(EMPTY, username, email);
 			User user = new User();
 
-			String password = generatePassword();
+//			String password = generatePassword();
 			String encodedPassword = encodePassword(password);
 			user.setUserId(generateUserId());
 			user.setFirstname(firstname);
@@ -111,11 +111,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	// Ajoute également un objet utilisateur dans la base de données, réserver au front office elle est destinée 
 	// à l'ajout d'un utilisateur lorsqu'un utilisateur créé un compte dans l'application
 	@Override
-	public User register(String firstname, String lastname, String username, String email) throws UserNotFoundException, UsernameExistException, EmailExistException {
+	public User register(String firstname, String lastname, String username, String email, String password) throws UserNotFoundException, UsernameExistException, EmailExistException {
 		//try {
 			validateNewUsernameAndEmail(StringUtils.EMPTY, username, email);
 			User user = new User();
-			String password = generatePassword();
+//			String password = generatePassword();
 			String encodedPassword = encodePassword(password);
 			user.setUserId(generateUserId());			
 			user.setFirstname(firstname);
@@ -372,4 +372,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			loginAttemptService.evictUserFromLoginAttemptCache(user.getUsername());
 		}
 	}
+
+
 }

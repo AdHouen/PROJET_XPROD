@@ -104,22 +104,22 @@ export class UserComponent implements OnInit {
 
   // Méthode pour récupérer le nom et l'image
   public onProfileImageChange(event:any):void{
-    
-    
+
+
     const files : File[] = event.target.files;
     let file: File = event.target.files[event.target.files.length-1] as File;
-    
+
     this.fileName = file.name;
     this.profileImage = file;
     console.log(this.fileName);
-  
+
   }
 
 
   //Méthode pour update la photo de profile
   public updateProfileImage() : void {
     this.clickButton('profile-image-input');
-    
+
 
   }
   public onUpdateProfileImage() : void {
@@ -159,9 +159,12 @@ export class UserComponent implements OnInit {
   // Méthode pour ajouter un nouvel utilisateur
   public onAddNewUser(userForm:NgForm):void{
    const formData = this.userService.createUserFormData(null as any,userForm.value,this.profileImage);
+   console.log("Avant push : "+userForm);
+
    this.subscription.push(
     this.userService.addUser(formData).subscribe(
       (data : User) => {
+        console.log("Apres push : "+data);
         this.clickButton('new-user-close');
         this.getUsers(false);
         this.fileName = null as any;
